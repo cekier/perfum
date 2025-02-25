@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perfume Store</title>
+  <link rel="stylesheet" href="css.css">
+</head>
+<body>
+  <header class="header">
+    <h1>Exclusive Perfume Collection</h1>
+    <!-- Ikona hamburgera -->
+    <div class="hamburger" onclick="toggleMenu()">☰</div>
+    <!-- Nawigacja -->
+    <nav class="navigation">
+      <ul>
+        <li><a href="index.html#all">All</a></li>
+        <li><a href="index.html#men">Men</a></li>
+        <li><a href="index.html#women">Women</a></li>
+        <li><a href="index.html#unisex">Unisex</a></li>
+      </ul>
+    </nav>
+    <!-- Ikona koszyka -->
+    <div class="cart-icon">
+      🛒 <span id="cart-count">0</span>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="products" id="product-list">
+      <!-- Przykładowe karty produktów -->
+      <div class="card">
+        <a href="perfume.html?id=1" class="card-link">
+          <img src="PerfumeA.jpg" alt="Perfume A">
+          <h2>Perfume A</h2>
+          <p>$120</p>
+        </a>
+        <button class="button" onclick="addToCart(1)">Add to Cart</button>
+      </div>
+      <div class="card">
+        <a href="perfume.html?id=2" class="card-link">
+          <img src="PerfumeB.jpg" alt="Perfume B">
+          <h2>Perfume B</h2>
+          <p>$150</p>
+        </a>
+        <button class="button" onclick="addToCart(2)">Add to Cart</button>
+      </div>
+      <div class="card">
+        <a href="perfume.html?id=3" class="card-link">
+          <img src="PerfumeC.jpg" alt="Perfume C">
+          <h2>Perfume C</h2>
+          <p>$180</p>
+        </a>
+        <button class="button" onclick="addToCart(3)">Add to Cart</button>
+      </div>
+    </div>
+
+    <div class="cart" id="cart">
+      <h2>Cart (<span id="cart-items-count">0</span>)</h2>
+      <ul id="cart-items"></ul>
+    </div>
+  </div>
+
+  <script>
+    // Przykładowa lista produktów
+    const products = [
+      { id: 1, name: "Perfume A", price: 120, image: "PerfumeA.jpg", category: "men" },
+      { id: 2, name: "Perfume B", price: 150, image: "PerfumeB.jpg", category: "women" },
+      { id: 3, name: "Perfume C", price: 180, image: "PerfumeC.jpg", category: "unisex" }
+    ];
+
+    const cart = [];
+
+    function addToCart(productId) {
+      const product = products.find(p => p.id === productId);
+      cart.push(product);
+      updateCart();
+    }
+
+    function updateCart() {
+      const cartItems = document.getElementById("cart-items");
+      cartItems.innerHTML = "";
+      cart.forEach((item, index) => {
+        const cartItem = document.createElement("li");
+        cartItem.classList.add("cart-item");
+        cartItem.innerHTML = `${item.name} - $${item.price} <button onclick="removeFromCart(${index})">Remove</button>`;
+        cartItems.appendChild(cartItem);
+      });
+      document.getElementById("cart-items-count").textContent = cart.length;
+      document.getElementById("cart-count").textContent = cart.length;
+    }
+
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      updateCart();
+    }
+
+    // Funkcja przełączająca widoczność nawigacji
+    function toggleMenu() {
+      const nav = document.querySelector('.navigation');
+      nav.classList.toggle('active');
+    }
+  </script>
+</body>
+</html>

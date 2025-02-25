@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Perfume Details</title>
+  <link rel="stylesheet" href="css.css" />
+</head>
+<body>
+  <header class="header">
+    <!-- Back button pozostaje po lewej -->
+    <a href="index.html" class="back-button">← Back to Shop</a>
+    <h1>Perfume Details</h1>
+   
+    
+  </header>
+
+  <div class="container">
+    <div class="product-detail">
+      <img src="" alt="Product Image" class="detail-image" />
+      <div class="detail-info">
+        <h1>Loading...</h1>
+        <p class="price"></p>
+        <p class="description"></p>
+        <button class="button add-to-cart">Add to Cart</button>
+      </div>
+    </div>
+
+    <div class="reviews">
+      <h2>Reviews</h2>
+      <!-- Recenzje zostaną dodane dynamicznie -->
+    </div>
+  </div>
+
+  <script>
+    // Przykładowe dane produktów
+    const products = [
+      {
+        id: "1",
+        name: "Perfume A",
+        price: 120,
+        image: "PerfumeA.jpg",
+        description:
+          "Perfume A oferuje elegancki, długotrwały zapach z nutami cytrusowymi i drzewnymi. Idealny wybór na każdą okazję.",
+        reviews: [
+          { reviewer: "John Doe", text: "Amazing scent and long-lasting!" },
+          { reviewer: "Jane Smith", text: "My favorite perfume so far." }
+        ]
+      },
+      {
+        id: "2",
+        name: "Perfume B",
+        price: 150,
+        image: "PerfumeB.jpg",
+        description:
+          "Perfume B to połączenie intensywnych nut orientalnych z delikatną świeżością. Doskonały na wieczorne wyjścia.",
+        reviews: [
+          { reviewer: "Alice Brown", text: "Bold and captivating aroma." },
+          { reviewer: "Bob Green", text: "Great for special occasions." }
+        ]
+      },
+      {
+        id: "3",
+        name: "Perfume C",
+        price: 180,
+        image: "PerfumeC.jpg",
+        description:
+          "Perfume C charakteryzuje się wyjątkową kompozycją zapachową, łączącą nuty drzewne z delikatnym akcentem kwiatowym.",
+        reviews: [
+          { reviewer: "Catherine Blue", text: "Subtle yet unforgettable." },
+          { reviewer: "David Black", text: "Perfect blend for everyday use." }
+        ]
+      }
+    ];
+
+    // Pobranie ID produktu z parametrów URL
+    const params = new URLSearchParams(window.location.search);
+    const productId = params.get("id");
+
+    // Znalezienie produktu na podstawie ID
+    const product = products.find(p => p.id === productId);
+
+    if (product) {
+      // Aktualizacja danych na stronie
+      document.querySelector(".detail-info h1").textContent = product.name;
+      document.querySelector(".detail-info .price").textContent = "$" + product.price;
+      document.querySelector(".detail-info .description").textContent = product.description;
+      document.querySelector(".detail-image").src = product.image;
+      document.querySelector(".detail-image").alt = product.name;
+
+      // Aktualizacja sekcji recenzji
+      const reviewsContainer = document.querySelector(".reviews");
+      // Czyścimy stare recenzje (zostawiamy tytuł)
+      reviewsContainer.innerHTML = "<h2>Reviews</h2>";
+      product.reviews.forEach(review => {
+        const reviewDiv = document.createElement("div");
+        reviewDiv.classList.add("review");
+        reviewDiv.innerHTML = `<p class="reviewer">${review.reviewer}</p>
+                               <p class="review-text">${review.text}</p>`;
+        reviewsContainer.appendChild(reviewDiv);
+      });
+    } else {
+      // Jeśli produkt nie został znaleziony
+      document.querySelector(".detail-info").innerHTML = "<p>Product not found.</p>";
+    }
+
+    // Toggle dla hamburger menu (tak samo jak w index.html)
+    function toggleMenu() {
+      const nav = document.querySelector('.navigation');
+      nav.classList.toggle('active');
+    }
+  </script>
+</body>
+</html>
